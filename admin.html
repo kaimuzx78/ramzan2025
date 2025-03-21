@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ramadan Calendar Admin</title>
+    <link rel="stylesheet" href="admin-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-card">
+            <div class="admin-header">
+                <h1><i class="fas fa-user-shield"></i> Admin Dashboard</h1>
+                <div class="login-status" id="loginStatus">Not logged in</div>
+            </div>
+            
+            <div id="loginForm" class="login-form">
+                <h2>Login</h2>
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter username">
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter password">
+                </div>
+                <button id="loginBtn" class="admin-btn">Login</button>
+            </div>
+            
+            <div id="adminPanel" class="admin-panel hidden">
+                <div class="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-title">Total Visitors</div>
+                        <div class="stat-value" id="totalVisitors">--</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Today's Visitors</div>
+                        <div class="stat-value" id="todayVisitors">--</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Active Users</div>
+                        <div class="stat-value" id="activeUsers">--</div>
+                    </div>
+                </div>
+                
+                <div class="visitor-list-container">
+                    <h2>Recent Visitors</h2>
+                    <div class="visitor-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="today">Today</button>
+                        <button class="filter-btn" data-filter="week">This Week</button>
+                    </div>
+                    <table class="visitor-table">
+                        <thead>
+                            <tr>
+                                <th>IP Address</th>
+                                <th>Location</th>
+                                <th>Date/Time</th>
+                                <th>Device</th>
+                            </tr>
+                        </thead>
+                        <tbody id="visitorList">
+                            <!-- Visitor data will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <button id="logoutBtn" class="admin-btn logout-btn">Logout</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="admin-script.js"></script>
+</body>
+</html> 
