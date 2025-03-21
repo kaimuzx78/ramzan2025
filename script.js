@@ -122,3 +122,55 @@ function updateEidCountdown() {
 // Update the countdown every second
 setInterval(updateEidCountdown, 1000);
 updateEidCountdown(); // Initial call 
+
+document.addEventListener('DOMContentLoaded', function() {
+    const copyLinkBtn = document.getElementById('copyLinkBtn');
+    const copyMessage = document.getElementById('copyMessage');
+    
+    if (copyLinkBtn && copyMessage) {
+        copyLinkBtn.addEventListener('click', function() {
+            const url = 'https://bit.ly/ramzan2025';
+            
+            if (navigator.clipboard) {
+                navigator.clipboard.writeText(url)
+                    .then(function() {
+                        showCopyMessage();
+                    })
+                    .catch(function() {
+                        fallbackCopy(url);
+                    });
+            } else {
+                fallbackCopy(url);
+            }
+        });
+        
+        function fallbackCopy(text) {
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-999999px';
+            textArea.style.top = '-999999px';
+            document.body.appendChild(textArea);
+            
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopyMessage();
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+                alert('Copy link: ' + text);
+            }
+            
+            document.body.removeChild(textArea);
+        }
+        
+        function showCopyMessage() {
+            copyMessage.classList.add('visible');
+            setTimeout(function() {
+                copyMessage.classList.remove('visible');
+            }, 2000);
+        }
+    }
+}); 
