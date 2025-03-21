@@ -1,19 +1,19 @@
-const ramadanData = [
-    { ramadanDay: "16", date: "17", sehri: "5:22", iftar: "6:51" },
-    { ramadanDay: "17", date: "18", sehri: "5:21", iftar: "6:51" },
-    { ramadanDay: "18", date: "19", sehri: "5:20", iftar: "6:51" },
-    { ramadanDay: "19", date: "20", sehri: "5:19", iftar: "6:52" },
-    { ramadanDay: "20", date: "21", sehri: "5:19", iftar: "6:52" },
-    { ramadanDay: "21", date: "22", sehri: "5:18", iftar: "6:52" },
-    { ramadanDay: "22", date: "23", sehri: "5:18", iftar: "6:52" },
-    { ramadanDay: "23", date: "24", sehri: "5:17", iftar: "6:53" },
-    { ramadanDay: "24", date: "25", sehri: "5:16", iftar: "6:53" },
-    { ramadanDay: "25", date: "26", sehri: "5:15", iftar: "6:53" },
-    { ramadanDay: "26", date: "27", sehri: "5:14", iftar: "6:54" },
-    { ramadanDay: "27", date: "28", sehri: "5:13", iftar: "6:54" },
-    { ramadanDay: "28", date: "29", sehri: "5:12", iftar: "6:54" },
-    { ramadanDay: "29", date: "30", sehri: "5:11", iftar: "6:55" },
-    { ramadanDay: "30", date: "31", sehri: "5:10", iftar: "6:55" }
+const ramzanData = [
+    { ramzanDay: "16", date: "17", sehri: "5:22", iftar: "6:51" },
+    { ramzanDay: "17", date: "18", sehri: "5:21", iftar: "6:51" },
+    { ramzanDay: "18", date: "19", sehri: "5:20", iftar: "6:51" },
+    { ramzanDay: "19", date: "20", sehri: "5:19", iftar: "6:52" },
+    { ramzanDay: "20", date: "21", sehri: "5:19", iftar: "6:52" },
+    { ramzanDay: "21", date: "22", sehri: "5:18", iftar: "6:52" },
+    { ramzanDay: "22", date: "23", sehri: "5:18", iftar: "6:52" },
+    { ramzanDay: "23", date: "24", sehri: "5:17", iftar: "6:53" },
+    { ramzanDay: "24", date: "25", sehri: "5:16", iftar: "6:53" },
+    { ramzanDay: "25", date: "26", sehri: "5:15", iftar: "6:53" },
+    { ramzanDay: "26", date: "27", sehri: "5:14", iftar: "6:54" },
+    { ramzanDay: "27", date: "28", sehri: "5:13", iftar: "6:54" },
+    { ramzanDay: "28", date: "29", sehri: "5:12", iftar: "6:54" },
+    { ramzanDay: "29", date: "30", sehri: "5:11", iftar: "6:55" },
+    { ramzanDay: "30", date: "31", sehri: "5:10", iftar: "6:55" }
 ];
 
 const showCalendarBtn = document.getElementById('showCalendarBtn');
@@ -33,7 +33,7 @@ function populateCalendarTable() {
     const today = new Date();
     const currentDate = today.getDate();
     
-    ramadanData.forEach((day, index) => {
+    ramzanData.forEach((day, index) => {
         const row = document.createElement('tr');
         if (parseInt(day.date) === currentDate && 
             today.getMonth() === 2 && 
@@ -41,9 +41,9 @@ function populateCalendarTable() {
             row.classList.add('current-row');
         }
         
-        const isLastDay = index === ramadanData.length - 1;
+        const isLastDay = index === ramzanData.length - 1;
         row.innerHTML = `
-            <td>${day.ramadanDay}</td>
+            <td>${day.ramzanDay}</td>
             <td>${day.date} Mar</td>
             <td>${day.sehri}</td>
             <td>${day.iftar}</td>
@@ -58,19 +58,19 @@ function updateTimes() {
     
     if (march2025) {
         const dayOfMonth = today.getDate();
-        const ramadanDay = ramadanData.find(day => parseInt(day.date) === dayOfMonth);
+        const ramzanDay = ramzanData.find(day => parseInt(day.date) === dayOfMonth);
         
-        if (ramadanDay) {
-            document.getElementById('currentDay').textContent = `${ramadanDay.ramadanDay} (${dayOfMonth} March 2025)`;
-            document.getElementById('sehriTime').textContent = ramadanDay.sehri;
-            document.getElementById('iftarTime').textContent = ramadanDay.iftar;
+        if (ramzanDay) {
+            document.getElementById('currentDay').textContent = `${ramzanDay.ramzanDay} (${dayOfMonth} March 2025)`;
+            document.getElementById('sehriTime').textContent = ramzanDay.sehri;
+            document.getElementById('iftarTime').textContent = ramzanDay.iftar;
         } else {
-            document.getElementById('currentDay').textContent = 'Outside Ramadan';
+            document.getElementById('currentDay').textContent = 'Outside Ramzan';
             document.getElementById('sehriTime').textContent = '-';
             document.getElementById('iftarTime').textContent = '-';
         }
     } else {
-        document.getElementById('currentDay').textContent = 'Outside Ramadan';
+        document.getElementById('currentDay').textContent = 'Outside Ramzan';
         document.getElementById('sehriTime').textContent = '-';
         document.getElementById('iftarTime').textContent = '-';
     }
