@@ -1016,4 +1016,143 @@ tr:last-child td {
         font-size: 0.8rem;
         margin-bottom: 10px;
     }
+}
+
+/* Location and weather styling */
+.location-weather {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 15px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.7), rgba(255, 255, 255, 0.3));
+    border-radius: 50px;
+    backdrop-filter: blur(5px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.5);
+}
+
+.location-weather::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+        rgba(212, 175, 55, 0.1), 
+        rgba(13, 27, 62, 0.1));
+    z-index: 0;
+}
+
+.location, .temperature {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+.location i, .temperature i {
+    color: #d4af37;
+    font-size: 1.2rem;
+    filter: drop-shadow(0 2px 3px rgba(0, 0, 0, 0.1));
+}
+
+.location span {
+    color: #0d1b3e;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.temperature span {
+    color: #0d1b3e;
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+/* Weather animation */
+.temperature i {
+    animation: pulse-temp 2s infinite;
+}
+
+@keyframes pulse-temp {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+        color: #ff9800;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .location-weather {
+        flex-direction: column;
+        gap: 10px;
+        padding: 12px;
+    }
+}
+
+/* Add these styles for the countdown timers */
+.countdown-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    position: relative;
+    z-index: 2;
+}
+
+.countdown {
+    font-size: 1.2rem;
+    font-weight: 700;
+    font-family: 'Roboto Mono', monospace;
+    letter-spacing: 1px;
+}
+
+.timing-box:first-child .countdown {
+    color: #e65100;
+}
+
+.timing-box:last-child .countdown {
+    color: #ffd54f;
+}
+
+.countdown-label {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.8;
+    margin-top: 2px;
+}
+
+.timing-box:first-child .countdown-label {
+    color: #0d1b3e;
+}
+
+.timing-box:last-child .countdown-label {
+    color: #ffffff;
+}
+
+/* Add a pulsing effect for the last hour */
+@keyframes countdown-pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.6; }
+    100% { opacity: 1; }
+}
+
+.countdown.urgent {
+    animation: countdown-pulse 1s infinite;
+    color: #f44336 !important;
 } 

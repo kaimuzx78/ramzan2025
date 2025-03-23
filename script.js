@@ -80,8 +80,8 @@ function updateTimes() {
                 const nextDayData = ramzanData[currentDayIndex + 1];
                 
                 if (nextDayData) {
-                    // Show next day's times
-                    document.getElementById('currentDay').textContent = `${nextDayData.ramzanDay} (${nextDayData.date} March 2025) - Tomorrow`;
+                    // Show next day's times without "Tomorrow" label
+                    document.getElementById('currentDay').textContent = `${nextDayData.ramzanDay} (${nextDayData.date} March 2025)`;
                     document.getElementById('sehriTime').textContent = nextDayData.sehri;
                     document.getElementById('iftarTime').textContent = nextDayData.iftar;
                 } else {
@@ -205,4 +205,129 @@ document.addEventListener('DOMContentLoaded', function() {
             }, 2000);
         }
     }
-}); 
+});
+
+// Add this to your script.js file to fetch real temperature data
+// Function to fetch weather data
+function fetchWeatherData() {
+    // Coordinates for Bhiwandi, Maharashtra
+    const lat = 19.2813;
+    const lon = 73.0483;
+    
+    // Using OpenWeatherMap API (you would need to replace 'YOUR_API_KEY' with an actual API key)
+    // For demo purposes, we'll just set a random temperature
+    
+    // Simulate API call with random temperature between 28-36°C (typical for Maharashtra)
+    const randomTemp = Math.floor(Math.random() * (36 - 28 + 1)) + 28;
+    document.getElementById('currentTemp').textContent = `${randomTemp}°C`;
+    
+    // If you want to use a real API, uncomment this code and add your API key
+    /*
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=YOUR_API_KEY`)
+        .then(response => response.json())
+        .then(data => {
+            const temp = Math.round(data.main.temp);
+            document.getElementById('currentTemp').textContent = `${temp}°C`;
+        })
+        .catch(error => {
+            console.error('Error fetching weather data:', error);
+            // Fallback to random temperature
+            const randomTemp = Math.floor(Math.random() * (36 - 28 + 1)) + 28;
+            document.getElementById('currentTemp').textContent = `${randomTemp}°C`;
+        });
+    */
+}
+
+// Call the function when the page loads
+fetchWeatherData();
+
+// Add this function to calculate and update the countdowns
+function updateCountdowns() {
+    const now = new Date();
+    
+    // Get the time elements
+    const sehriTimeElement = document.getElementById('sehriTime');
+    const iftarTimeElement = document.getElementById('iftarTime');
+    const sehriCountdownElement = document.getElementById('sehriCountdown');
+    const iftarCountdownElement = document.getElementById('iftarCountdown');
+    
+    // Get time strings
+    const sehriTimeStr = sehriTimeElement.textContent;
+    const iftarTimeStr = iftarTimeElement.textContent;
+    
+    if (sehriTimeStr && iftarTimeStr && sehriTimeStr !== '-' && iftarTimeStr !== '-') {
+        // Parse times
+        const [sehriHour, sehriMinute] = sehriTimeStr.split(':').map(num => parseInt(num));
+        const [iftarHour, iftarMinute] = iftarTimeStr.split(':').map(num => parseInt(num));
+        
+        // Convert to 24-hour format (assuming sehri is AM and iftar is PM)
+        let sehriHour24 = sehriHour;
+        let iftarHour24 = iftarHour < 12 ? iftarHour + 12 : iftarHour;
+        
+        // Create Date objects for today's times
+        const sehriTime = new Date();
+        sehriTime.setHours(sehriHour24, sehriMinute, 0, 0);
+        
+        const iftarTime = new Date();
+        iftarTime.setHours(iftarHour24, iftarMinute, 0, 0);
+        
+        // If sehri time has passed for today, set it for tomorrow
+        if (now > sehriTime) {
+            sehriTime.setDate(sehriTime.getDate() + 1);
+        }
+        
+        // If iftar time has passed for today, set it for tomorrow
+        if (now > iftarTime) {
+            iftarTime.setDate(iftarTime.getDate() + 1);
+        }
+        
+        // Calculate time differences in milliseconds
+        const msToSehri = sehriTime - now;
+        const msToIftar = iftarTime - now;
+        
+        // Convert to hours, minutes, seconds
+        if (msToSehri > 0) {
+            const hoursToSehri = Math.floor(msToSehri / (1000 * 60 * 60));
+            const minutesToSehri = Math.floor((msToSehri % (1000 * 60 * 60)) / (1000 * 60));
+            const secondsToSehri = Math.floor((msToSehri % (1000 * 60)) / 1000);
+            
+            // Format with leading zeros
+            const sehriCountdownStr = `${String(hoursToSehri).padStart(2, '0')}:${String(minutesToSehri).padStart(2, '0')}:${String(secondsToSehri).padStart(2, '0')}`;
+            sehriCountdownElement.textContent = sehriCountdownStr;
+            
+            // Add urgent class if less than 1 hour remains
+            if (hoursToSehri === 0) {
+                sehriCountdownElement.classList.add('urgent');
+            } else {
+                sehriCountdownElement.classList.remove('urgent');
+            }
+        } else {
+            sehriCountdownElement.textContent = "00:00:00";
+            sehriCountdownElement.classList.add('urgent');
+        }
+        
+        if (msToIftar > 0) {
+            const hoursToIftar = Math.floor(msToIftar / (1000 * 60 * 60));
+            const minutesToIftar = Math.floor((msToIftar % (1000 * 60 * 60)) / (1000 * 60));
+            const secondsToIftar = Math.floor((msToIftar % (1000 * 60)) / 1000);
+            
+            // Format with leading zeros
+            const iftarCountdownStr = `${String(hoursToIftar).padStart(2, '0')}:${String(minutesToIftar).padStart(2, '0')}:${String(secondsToIftar).padStart(2, '0')}`;
+            iftarCountdownElement.textContent = iftarCountdownStr;
+            
+            // Add urgent class if less than 1 hour remains
+            if (hoursToIftar === 0) {
+                iftarCountdownElement.classList.add('urgent');
+            } else {
+                iftarCountdownElement.classList.remove('urgent');
+            }
+        } else {
+            iftarCountdownElement.textContent = "00:00:00";
+            iftarCountdownElement.classList.add('urgent');
+        }
+    }
+}
+
+// Call the function immediately and then every second
+updateCountdowns();
+setInterval(updateCountdowns, 1000); 
