@@ -52,18 +52,50 @@ function populateCalendarTable() {
     });
 }
 
+// Function to update times based on current time of day
 function updateTimes() {
     const today = new Date();
     const march2025 = today.getMonth() === 2 && today.getFullYear() === 2025;
     
     if (march2025) {
         const dayOfMonth = today.getDate();
+        const currentHour = today.getHours();
+        const currentMinute = today.getMinutes();
+        const currentTimeInMinutes = currentHour * 60 + currentMinute;
+        
+        // Find current day's data
         const ramzanDay = ramzanData.find(day => parseInt(day.date) === dayOfMonth);
         
         if (ramzanDay) {
-            document.getElementById('currentDay').textContent = `${ramzanDay.ramzanDay} (${dayOfMonth} March 2025)`;
-            document.getElementById('sehriTime').textContent = ramzanDay.sehri;
-            document.getElementById('iftarTime').textContent = ramzanDay.iftar;
+            // Parse iftar time to check if it's passed
+            const [iftarHour, iftarMinute] = ramzanDay.iftar.split(':').map(num => parseInt(num));
+            // Convert to 24-hour format (assuming iftar is PM)
+            const iftarHour24 = iftarHour < 12 ? iftarHour + 12 : iftarHour;
+            const iftarTimeInMinutes = iftarHour24 * 60 + iftarMinute;
+            
+            // Check if current time is past iftar time
+            if (currentTimeInMinutes > iftarTimeInMinutes) {
+                // Find the next day's data
+                const currentDayIndex = ramzanData.findIndex(day => parseInt(day.date) === dayOfMonth);
+                const nextDayData = ramzanData[currentDayIndex + 1];
+                
+                if (nextDayData) {
+                    // Show next day's times
+                    document.getElementById('currentDay').textContent = `${nextDayData.ramzanDay} (${nextDayData.date} March 2025) - Tomorrow`;
+                    document.getElementById('sehriTime').textContent = nextDayData.sehri;
+                    document.getElementById('iftarTime').textContent = nextDayData.iftar;
+                } else {
+                    // If it's the last day of Ramzan
+                    document.getElementById('currentDay').textContent = `${ramzanDay.ramzanDay} (${dayOfMonth} March 2025)`;
+                    document.getElementById('sehriTime').textContent = ramzanDay.sehri;
+                    document.getElementById('iftarTime').textContent = ramzanDay.iftar;
+                }
+            } else {
+                // Show current day's times
+                document.getElementById('currentDay').textContent = `${ramzanDay.ramzanDay} (${dayOfMonth} March 2025)`;
+                document.getElementById('sehriTime').textContent = ramzanDay.sehri;
+                document.getElementById('iftarTime').textContent = ramzanDay.iftar;
+            }
         } else {
             document.getElementById('currentDay').textContent = 'Outside Ramzan';
             document.getElementById('sehriTime').textContent = '-';

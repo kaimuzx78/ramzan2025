@@ -345,13 +345,147 @@ h1 {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     display: flex;
     flex-direction: column;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
+/* Morning sunlight effect for Sehri */
+.timing-box:first-child {
+    background: linear-gradient(135deg, #fff9c4, #fffde7, #ffffff);
+    border: 2px solid rgba(212, 175, 55, 0.5);
+    box-shadow: 0 5px 15px rgba(255, 234, 167, 0.3);
+}
+
+.timing-box:first-child::before {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: -30px;
+    width: 100px;
+    height: 100px;
+    background: radial-gradient(circle, rgba(255, 236, 179, 0.9), rgba(255, 224, 130, 0.6), transparent 70%);
+    border-radius: 50%;
+    filter: blur(10px);
+    z-index: 1;
+}
+
+.timing-box:first-child::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, 
+        rgba(255, 255, 255, 0.4) 0%, 
+        rgba(255, 248, 225, 0.2) 50%, 
+        rgba(255, 236, 179, 0.1) 100%);
+    z-index: 0;
+}
+
+.timing-box:first-child .label {
+    color: #0d1b3e;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+}
+
+.timing-box:first-child .time {
+    color: #d4af37;
+    font-size: 1.8rem;
+    text-align: center;
+    font-weight: 700;
+    margin-top: 5px;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Evening twilight effect for Iftar */
+.timing-box:last-child {
+    background: linear-gradient(135deg, #5c6bc0, #3949ab, #283593);
+    border: 2px solid rgba(212, 175, 55, 0.5);
+    box-shadow: 0 5px 15px rgba(41, 98, 255, 0.2);
+}
+
+.timing-box:last-child::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        linear-gradient(to bottom, 
+            rgba(255, 183, 77, 0.2) 0%, 
+            rgba(13, 27, 62, 0) 30%),
+        radial-gradient(
+            ellipse at top, 
+            rgba(255, 183, 77, 0.3) 0%, 
+            rgba(13, 27, 62, 0) 60%
+        );
+    z-index: 1;
+}
+
+.timing-box:last-child::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    box-shadow: 
+        20px 30px 1px 0px rgba(255, 255, 255, 0.7),
+        90px 40px 1px 0px rgba(255, 255, 255, 0.6),
+        150px 20px 1px 0px rgba(255, 255, 255, 0.8),
+        200px 60px 1px 0px rgba(255, 255, 255, 0.6),
+        50px 80px 1px 0px rgba(255, 255, 255, 0.7),
+        120px 70px 1px 0px rgba(255, 255, 255, 0.8);
+    z-index: 1;
+}
+
+.timing-box:last-child .label {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.2rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    z-index: 2;
+}
+
+.timing-box:last-child .time {
+    color: #ffd54f;
+    font-size: 1.8rem;
+    text-align: center;
+    font-weight: 700;
+    margin-top: 5px;
+    position: relative;
+    z-index: 2;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* Enhanced hover effects */
 .timing-box:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+.timing-box:first-child:hover {
+    box-shadow: 0 10px 25px rgba(255, 234, 167, 0.4);
+}
+
+.timing-box:last-child:hover {
+    box-shadow: 0 10px 25px rgba(41, 98, 255, 0.3);
+}
+
+/* Remove emoji icons */
+.timing-box:first-child::before,
+.timing-box:last-child::before {
+    content: '';
 }
 
 .label {
